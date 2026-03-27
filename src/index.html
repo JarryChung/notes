@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZJIZHUANG</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css"
+    />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script>
+      // Runs before first paint — prevents theme flash
+      (function () {
+        var saved = localStorage.getItem("theme");
+        var theme =
+          saved ||
+          (window.matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <!-- Liquid glass SVG filter -->
+    <svg style="display: none" aria-hidden="true">
+      <filter
+        id="glass-distortion"
+        x="0%"
+        y="0%"
+        width="100%"
+        height="100%"
+        filterUnits="objectBoundingBox"
+      >
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.001 0.005"
+          numOctaves="1"
+          seed="17"
+          result="turbulence"
+        />
+        <feComponentTransfer in="turbulence" result="mapped">
+          <feFuncR type="gamma" amplitude="1" exponent="10" offset="0.5" />
+          <feFuncG type="gamma" amplitude="0" exponent="1" offset="0" />
+          <feFuncB type="gamma" amplitude="0" exponent="1" offset="0.5" />
+        </feComponentTransfer>
+        <feGaussianBlur in="turbulence" stdDeviation="3" result="softMap" />
+        <feSpecularLighting
+          in="softMap"
+          surfaceScale="5"
+          specularConstant="1"
+          specularExponent="100"
+          lighting-color="white"
+          result="specLight"
+        >
+          <fePointLight x="-200" y="-200" z="300" />
+        </feSpecularLighting>
+        <feComposite
+          in="specLight"
+          operator="arithmetic"
+          k1="0"
+          k2="1"
+          k3="1"
+          k4="0"
+          result="litImage"
+        />
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="softMap"
+          scale="200"
+          xChannelSelector="R"
+          yChannelSelector="G"
+        />
+      </filter>
+    </svg>
+
+    <!-- Navbar -->
+    <div class="navbar-wrapper">
+      <nav class="navbar" id="navbar" aria-label="Site navigation">
+        <div class="liquidGlass-effect" aria-hidden="true"></div>
+        <div class="liquidGlass-tint" aria-hidden="true"></div>
+        <div class="liquidGlass-shine" aria-hidden="true"></div>
+        <div class="navbar-logo">
+          <a href="index.html" aria-label="Home">
+            <img src="assets/logo.png" alt="ZJIZHUANG" />
+          </a>
+          <div class="bio-card" role="tooltip">
+            <div class="liquidGlass-effect" aria-hidden="true"></div>
+            <div class="liquidGlass-tint" aria-hidden="true"></div>
+            <div class="liquidGlass-shine" aria-hidden="true"></div>
+            <div class="bio-card__body">
+              <p class="bio-card__name">ZJIZHUANG</p>
+              <div class="bio-card__divider"></div>
+              <p class="bio-card__tagline">浪漫主义或野蛮</p>
+              <p class="bio-card__role">非典型软件工程师</p>
+              <ul class="bio-card__awards">
+                <li>2022 年奥林匹克杯得主</li>
+                <li>2019 年联合国地球卫士奖得主</li>
+                <li>2008 年感动中国特别奖获得者</li>
+                <li>2006 年时代周刊年度风云人物</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="navbar-toggle">{{THEME_TOGGLE}}</div>
+      </nav>
+    </div>
+
+    <!-- Post List -->
+    <main>
+      <div class="post-list" role="list">{{POSTS_LIST}}</div>
+    </main>
+
+    <script>
+      // ── Sync button aria-pressed with saved theme on load ─
+      document.addEventListener("DOMContentLoaded", function () {
+        var isDark =
+          document.documentElement.getAttribute("data-theme") === "dark";
+        var btn = document.getElementById("theme-toggle-btn");
+        if (btn) btn.setAttribute("aria-pressed", String(isDark));
+        // Wire up click → toggleTheme (replaces original CodePen listener)
+        if (btn) btn.addEventListener("click", toggleTheme);
+      });
+
+      // ── Theme toggle: CSS fade (background-color transition on html) ─
+      function toggleTheme() {
+        var isDark =
+          document.documentElement.getAttribute("data-theme") === "dark";
+        var next = isDark ? "light" : "dark";
+        var btn = document.getElementById("theme-toggle-btn");
+        document.documentElement.setAttribute("data-theme", next);
+        if (btn) btn.setAttribute("aria-pressed", String(!isDark));
+        localStorage.setItem("theme", next);
+      }
+    </script>
+  </body>
+</html>

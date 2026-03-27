@@ -1,0 +1,25 @@
+{
+  "name": "@zjiz/notes",
+  "version": "1.2.0",
+  "type": "module",
+  "private": true,
+  "description": "A blog generator with elegant styles and modern features.",
+  "keywords": [
+    "blog",
+    "generator",
+    "elegant",
+    "modern",
+    "features"
+  ],
+  "author": "ZJIZHUANG",
+  "license": "MIT",
+  "scripts": {
+    "build": "node src/build.js",
+    "build:watch": "node --watch src/build.js"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^12.0.0",
+    "shiki": "^4.0.2"
+  }
+}
