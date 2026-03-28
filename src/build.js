@@ -1,36 +1,88 @@
-import { promises as fs } from 'fs';
-import { join, dirname, basename, extname } from 'path';
-import { fileURLToPath } from 'url';
-import matter from 'gray-matter';
-import { marked } from 'marked';
-import { createHighlighter } from 'shiki';
+import { promises as fs } from "fs";
+import { join, dirname, basename, extname } from "path";
+import { fileURLToPath } from "url";
+import matter from "gray-matter";
+import { marked } from "marked";
+import { createHighlighter } from "shiki";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const ROOT = join(__dirname, '..');
+const ROOT = join(__dirname, "..");
+
+const SITE_URL = "https://zjiz.cn"; // e.g. 'https://example.com'
+
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+async function generateRss(posts, publicDir, siteUrl) {
+  const base = siteUrl.replace(/\/$/, "");
+  const feedUrl = base ? `${base}/feed.xml` : "feed.xml";
+  const siteLink = base || "./";
+
+  const items = posts
+    .map((post) => {
+      const link = base
+        ? `${base}/posts/${post.slug}.html`
+        : `posts/${post.slug}.html`;
+      const pubDate =
+        post.date instanceof Date && !isNaN(post.date.getTime())
+          ? post.date.toUTCString()
+          : new Date(0).toUTCString();
+      return `    <item>
+      <title>${escapeXml(post.title)}</title>
+      <link>${escapeXml(link)}</link>
+      <guid>${escapeXml(link)}</guid>
+      <pubDate>${pubDate}</pubDate>
+      <description>${escapeXml(post.excerpt)}</description>
+    </item>`;
+    })
+    .join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ZJIZHUANG's Notes</title>
+    <link>${escapeXml(siteLink)}</link>
+    <description>ZJIZHUANG 的个人博客</description>
+    <language>zh-cn</language>
+    <atom:link href="${escapeXml(feedUrl)}" rel="self" type="application/rss+xml" />
+${items}
+  </channel>
+</rss>`;
+
+  await fs.writeFile(join(publicDir, "feed.xml"), xml, "utf-8");
+}
 
 // Parse CLI arguments
 function parseArgs() {
   const args = process.argv.slice(2);
-  let postsDir = join(ROOT, 'posts');
-  let publicDir = join(ROOT, 'public');
+  let postsDir = join(ROOT, "posts");
+  let publicDir = join(ROOT, "public");
   for (let i = 0; i < args.length; i++) {
-    if ((args[i] === '--posts' || args[i] === '-p') && args[i + 1]) postsDir = args[++i];
-    if ((args[i] === '--output' || args[i] === '-o') && args[i + 1]) publicDir = args[++i];
+    if ((args[i] === "--posts" || args[i] === "-p") && args[i + 1])
+      postsDir = args[++i];
+    if ((args[i] === "--output" || args[i] === "-o") && args[i + 1])
+      publicDir = args[++i];
   }
   return { postsDir, publicDir };
 }
 
 // Format a date string or Date object as YYYY.MM.DD
 function formatDate(value) {
-  if (!value) return '';
+  if (!value) return "";
   // Normalize separators to dashes before parsing
-  const normalized = String(value).replace(/[./]/g, '-');
+  const normalized = String(value).replace(/[./]/g, "-");
   const d = new Date(normalized);
   if (isNaN(d.getTime())) return String(value);
   const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
   return `${y}.${m}.${day}`;
 }
 
@@ -38,14 +90,14 @@ function formatDate(value) {
 function findFirstImage(tokens) {
   if (!Array.isArray(tokens)) return null;
   for (const token of tokens) {
-    if (token.type === 'image') return token.href;
+    if (token.type === "image") return token.href;
     // Inline tokens inside paragraphs, headings, etc.
     if (token.tokens) {
       const found = findFirstImage(token.tokens);
       if (found) return found;
     }
     // List items
-    if (token.type === 'list' && token.items) {
+    if (token.type === "list" && token.items) {
       for (const item of token.items) {
         const found = findFirstImage(item.tokens);
         if (found) return found;
@@ -57,8 +109,8 @@ function findFirstImage(tokens) {
 
 // Parse `Intro:` and `Time:` fields from a blockquote's raw markdown text
 function parseBlockquoteMeta(raw) {
-  const intro = (raw.match(/^>\s*Intro:\s*(.+)$/im) || [])[1]?.trim() ?? '';
-  const time  = (raw.match(/^>\s*Time:\s*(.+)$/im)  || [])[1]?.trim() ?? '';
+  const intro = (raw.match(/^>\s*Intro:\s*(.+)$/im) || [])[1]?.trim() ?? "";
+  const time = (raw.match(/^>\s*Time:\s*(.+)$/im) || [])[1]?.trim() ?? "";
   return { intro, time };
 }
 
@@ -66,19 +118,19 @@ function parseBlockquoteMeta(raw) {
 function parseMarkdownMeta(body) {
   const tokens = marked.lexer(body);
 
-  let title = '';
-  let intro = '';
-  let time = '';
+  let title = "";
+  let intro = "";
+  let time = "";
   let foundH1 = false;
   let metaParsed = false;
 
   for (const token of tokens) {
     // Skip whitespace-only tokens
-    if (token.type === 'space') continue;
+    if (token.type === "space") continue;
 
     // Locate the first H1 and capture its text
     if (!foundH1) {
-      if (token.type === 'heading' && token.depth === 1) {
+      if (token.type === "heading" && token.depth === 1) {
         foundH1 = true;
         title = token.text.trim();
       }
@@ -87,10 +139,10 @@ function parseMarkdownMeta(body) {
 
     // The next block after H1 must be the meta blockquote
     if (!metaParsed) {
-      if (token.type === 'blockquote') {
+      if (token.type === "blockquote") {
         const meta = parseBlockquoteMeta(token.raw);
         intro = meta.intro;
-        time  = meta.time;
+        time = meta.time;
       }
       // Whether or not it was a blockquote, stop looking for meta
       metaParsed = true;
@@ -105,7 +157,7 @@ function parseMarkdownMeta(body) {
 // e.g. "./img/photo.jpg" → "posts/img/photo.jpg"
 function adjustImagePathForIndex(src) {
   if (!src || /^(https?:|\/\/)/.test(src)) return src;
-  return 'posts/' + src.replace(/^\.\//, '');
+  return "posts/" + src.replace(/^\.\//, "");
 }
 
 // Recursively copy all non-.md files from src to dest (preserves subdirs)
@@ -117,24 +169,36 @@ async function copyNonMdFiles(src, dest) {
     return; // source dir might not exist yet
   }
   for (const entry of entries) {
-    const srcPath  = join(src,  entry.name);
+    const srcPath = join(src, entry.name);
     const destPath = join(dest, entry.name);
     if (entry.isDirectory()) {
       await fs.mkdir(destPath, { recursive: true });
       await copyNonMdFiles(srcPath, destPath);
-    } else if (extname(entry.name) !== '.md') {
+    } else if (extname(entry.name) !== ".md") {
       await fs.copyFile(srcPath, destPath);
     }
   }
 }
 
 async function build(postsDir, publicDir) {
-  const srcDir = join(ROOT, 'src');
+  const srcDir = join(ROOT, "src");
 
   // 1. Initialize Shiki highlighter for build-time syntax highlighting
   const highlighter = await createHighlighter({
-    themes: ['catppuccin-latte', 'catppuccin-frappe'],
-    langs: ['html', 'css', 'javascript', 'typescript', 'rust', 'bash', 'shell', 'json', 'yaml', 'markdown', 'diff'],
+    themes: ["catppuccin-latte", "catppuccin-frappe"],
+    langs: [
+      "html",
+      "css",
+      "javascript",
+      "typescript",
+      "rust",
+      "bash",
+      "shell",
+      "json",
+      "yaml",
+      "markdown",
+      "diff",
+    ],
   });
 
   // Plug into marked: render fenced code blocks with Shiki
@@ -142,15 +206,18 @@ async function build(postsDir, publicDir) {
     renderer: {
       // marked v12 passes (text, lang, escaped) as positional arguments
       code(text, lang) {
-        const language = (lang || '').toLowerCase() || 'text';
+        const language = (lang || "").toLowerCase() || "text";
         try {
           return highlighter.codeToHtml(text, {
             lang: language,
-            themes: { light: 'catppuccin-latte', dark: 'catppuccin-frappe' },
+            themes: { light: "catppuccin-latte", dark: "catppuccin-frappe" },
           });
         } catch {
           // Unsupported language — fall back to plain preformatted text
-          const safe = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          const safe = text
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
           return `<pre class="shiki"><code>${safe}</code></pre>`;
         }
       },
@@ -159,20 +226,30 @@ async function build(postsDir, publicDir) {
 
   // 2. Clean and recreate output directories
   await fs.rm(publicDir, { recursive: true, force: true });
-  await fs.mkdir(join(publicDir, 'posts'), { recursive: true });
-  await fs.mkdir(join(publicDir, 'assets'), { recursive: true });
+  await fs.mkdir(join(publicDir, "posts"), { recursive: true });
+  await fs.mkdir(join(publicDir, "assets"), { recursive: true });
 
   // 2. Copy static assets
-  await fs.copyFile(join(srcDir, 'styles.css'), join(publicDir, 'assets', 'styles.css'));
-  await fs.copyFile(join(srcDir, 'logo.png'),   join(publicDir, 'assets', 'logo.png'));
+  await fs.copyFile(
+    join(srcDir, "styles.css"),
+    join(publicDir, "assets", "styles.css"),
+  );
+  await fs.copyFile(
+    join(srcDir, "logo.png"),
+    join(publicDir, "assets", "logo.png"),
+  );
 
   // 3. Copy images and other non-.md files from posts/ → public/posts/
-  await copyNonMdFiles(postsDir, join(publicDir, 'posts'));
+  await copyNonMdFiles(postsDir, join(publicDir, "posts"));
 
   // 4. Load templates (inject toggle button partial into {{THEME_TOGGLE}})
-  const toggleHtml    = await fs.readFile(join(srcDir, 'toggle.html'), 'utf-8');
-  const indexTemplate = (await fs.readFile(join(srcDir, 'index.html'), 'utf-8')).replaceAll('{{THEME_TOGGLE}}', toggleHtml);
-  const postTemplate  = (await fs.readFile(join(srcDir, 'post.html'),  'utf-8')).replaceAll('{{THEME_TOGGLE}}', toggleHtml);
+  const toggleHtml = await fs.readFile(join(srcDir, "toggle.html"), "utf-8");
+  const indexTemplate = (
+    await fs.readFile(join(srcDir, "index.html"), "utf-8")
+  ).replaceAll("{{THEME_TOGGLE}}", toggleHtml);
+  const postTemplate = (
+    await fs.readFile(join(srcDir, "post.html"), "utf-8")
+  ).replaceAll("{{THEME_TOGGLE}}", toggleHtml);
 
   // 5. Discover markdown files
   let files;
@@ -182,20 +259,25 @@ async function build(postsDir, publicDir) {
     console.warn(`⚠  Posts directory not found: ${postsDir}`);
     files = [];
   }
-  const mdFiles = files.filter(f => extname(f) === '.md');
+  const mdFiles = files.filter((f) => extname(f) === ".md");
 
   // 6. Parse each post
   const posts = await Promise.all(
     mdFiles.map(async (file) => {
-      const raw  = await fs.readFile(join(postsDir, file), 'utf-8');
+      const raw = await fs.readFile(join(postsDir, file), "utf-8");
       const { data, content: body } = matter(raw);
-      const slug = basename(file, '.md');
+      const slug = basename(file, ".md");
 
       // Metadata from markdown body takes priority over frontmatter
-      const { title: h1Title, intro, time, firstImage } = parseMarkdownMeta(body);
+      const {
+        title: h1Title,
+        intro,
+        time,
+        firstImage,
+      } = parseMarkdownMeta(body);
 
       // Resolve date: blockquote Time → frontmatter date → file birthtime
-      let dateStr = time ? formatDate(time) : '';
+      let dateStr = time ? formatDate(time) : "";
       if (!dateStr && data.date) dateStr = formatDate(data.date);
       if (!dateStr) {
         const stat = await fs.stat(join(postsDir, file));
@@ -203,26 +285,28 @@ async function build(postsDir, publicDir) {
       }
 
       // Parse into a Date for sorting
-      const dateObj = new Date(dateStr.replace(/\./g, '-'));
+      const dateObj = new Date(dateStr.replace(/\./g, "-"));
 
       // Excerpt: blockquote Intro → frontmatter description → empty
-      const excerpt = intro || data.description || '';
+      const excerpt = intro || data.description || "";
 
       const html = marked(body);
 
       // Thumbnail src rewritten for use from public/index.html
-      const thumbnailSrc = firstImage ? adjustImagePathForIndex(firstImage) : null;
+      const thumbnailSrc = firstImage
+        ? adjustImagePathForIndex(firstImage)
+        : null;
 
       return {
         slug,
-        title: h1Title || data.title || basename(file, '.md'),
+        title: h1Title || data.title || basename(file, ".md"),
         date: isNaN(dateObj.getTime()) ? new Date(0) : dateObj,
         dateStr,
         excerpt,
         html,
         thumbnailSrc,
       };
-    })
+    }),
   );
 
   // 7. Sort by date descending (newest first)
@@ -254,41 +338,47 @@ async function build(postsDir, publicDir) {
     </nav>`;
 
     const html = postTemplate
-      .replaceAll('{{TITLE}}',       post.title)
-      .replaceAll('{{DATE}}',        post.dateStr)
-      .replaceAll('{{CONTENT}}',     post.html)
-      .replaceAll('{{DESCRIPTION}}', post.excerpt)
-      .replaceAll('{{SLUG}}',        post.slug)
-      .replaceAll('{{POST_NAV}}',    postNavHtml);
-    await fs.writeFile(join(publicDir, 'posts', `${post.slug}.html`), html);
+      .replaceAll("{{TITLE}}", post.title)
+      .replaceAll("{{DATE}}", post.dateStr)
+      .replaceAll("{{CONTENT}}", post.html)
+      .replaceAll("{{DESCRIPTION}}", post.excerpt)
+      .replaceAll("{{SLUG}}", post.slug)
+      .replaceAll("{{POST_NAV}}", postNavHtml);
+    await fs.writeFile(join(publicDir, "posts", `${post.slug}.html`), html);
   }
 
   // 9. Build post list HTML (thumbnail only when post has an image)
   const postsListHtml = posts.length
-    ? posts.map(post => {
-        const thumb = post.thumbnailSrc
-          ? `\n      <div class="post-thumbnail"><img src="${post.thumbnailSrc}" alt="" loading="lazy"></div>`
-          : '';
-        return `    <a class="post-item" href="posts/${post.slug}.html">
+    ? posts
+        .map((post) => {
+          const thumb = post.thumbnailSrc
+            ? `\n      <div class="post-thumbnail"><img src="${post.thumbnailSrc}" alt="" loading="lazy"></div>`
+            : "";
+          return `    <a class="post-item" href="posts/${post.slug}.html">
       <div class="post-item-content" style="view-transition-name: post-header-${post.slug}">
         <h2 class="post-title">${post.title}</h2>
-        <p class="post-meta">${post.dateStr}${post.excerpt ? ' | ' + post.excerpt : ''}</p>
+        <p class="post-meta">${post.dateStr}${post.excerpt ? " | " + post.excerpt : ""}</p>
       </div>${thumb}
     </a>`;
-      }).join('\n')
+        })
+        .join("\n")
     : '<p class="empty-state">No posts yet.</p>';
 
   // 10. Generate index.html
   const indexHtml = indexTemplate
-    .replaceAll('{{POSTS_LIST}}', postsListHtml)
-    .replaceAll('{{YEAR}}',       new Date().getFullYear());
-  await fs.writeFile(join(publicDir, 'index.html'), indexHtml);
+    .replaceAll("{{POSTS_LIST}}", postsListHtml)
+    .replaceAll("{{YEAR}}", new Date().getFullYear());
+  await fs.writeFile(join(publicDir, "index.html"), indexHtml);
 
-  console.log(`✓ Built ${posts.length} post${posts.length !== 1 ? 's' : ''} → ${publicDir}`);
+  await generateRss(posts, publicDir, SITE_URL);
+
+  console.log(
+    `✓ Built ${posts.length} post${posts.length !== 1 ? "s" : ""} → ${publicDir}`,
+  );
 }
 
 const { postsDir, publicDir } = parseArgs();
 build(postsDir, publicDir).catch((err) => {
-  console.error('Build failed:', err);
+  console.error("Build failed:", err);
   process.exit(1);
 });

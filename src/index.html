@@ -10,6 +10,7 @@
       href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css"
     />
     <link rel="stylesheet" href="assets/styles.css" />
+    <link rel="alternate" type="application/rss+xml" title="ZJIZHUANG's Notes" href="feed.xml" />
     <script>
       // Runs before first paint — prevents theme flash
       (function () {
@@ -111,6 +112,10 @@
     <!-- Post List -->
     <main>
       <div class="post-list" role="list">{{POSTS_LIST}}</div>
+      <footer class="site-footer">
+        <span class="site-footer__name">ZJIZHUANG</span>
+        <a href="feed.xml" class="site-footer__rss">RSS Feed</a>
+      </footer>
     </main>
 
     <script>

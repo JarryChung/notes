@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.4] - 2026-03-28
+
+### Added
+- `src/build.js`: `SITE_URL` constant (empty string by default, set to deploy origin for absolute URLs); `escapeXml` helper for safe RSS XML output; `generateRss(posts, publicDir, siteUrl)` — generates RSS 2.0 `public/feed.xml` with `xmlns:atom` namespace, `atom:link rel="self"`, and one `<item>` per post (title, link, guid, pubDate via `toUTCString()`, description from excerpt); called at the end of `build()`
+- `src/index.html`: RSS autodiscovery `<link rel="alternate" type="application/rss+xml">` in `<head>`; `<footer class="site-footer">` below `{{POSTS_LIST}}` with left-side site name and right-side RSS Feed link
+- `src/post.html`: RSS autodiscovery `<link rel="alternate">` in `<head>` (href `../feed.xml`); `.post-back` div now contains both `← 回到首页` (left) and `RSS Feed` (right) links for two-sided layout
+- `src/styles.css`: `.site-footer` — flex `space-between`, `border-top` separator, `13px` secondary color; `.site-footer__rss` with hover color transition; `.post-back` gains `display: flex; justify-content: space-between; align-items: center`; `.post-back__rss` — `13px` secondary color with hover transition
+
 ## [1.2.3] - 2026-03-28
 
 ### Added
