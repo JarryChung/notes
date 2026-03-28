@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1] - 2026-03-28
+
+### Fixed
+- `src/styles.css`: Wrapped `.navbar-logo:hover .bio-card` show rule in `@media (hover: hover)` — prevents bio card from getting "stuck" open on touch devices after a tap
+- `src/styles.css`: Wrapped `.post-item:hover` opacity rule in `@media (hover: hover)` — prevents list items from remaining dimmed after a tap on mobile
+- `src/styles.css`: Removed `@keyframes macaron-flicker` and `.navbar-logo a:hover img` animation rule — eliminates the logo flicker effect entirely
+
 ## [1.2.0] - 2026-03-27
 
 ### Added
