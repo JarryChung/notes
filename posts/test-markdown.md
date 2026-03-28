@@ -6,7 +6,7 @@ description: 本文仅用于测试 Markdown 语法
 
 ## 序章：一个关于 README 的严肃承诺
 
-小张盯着空白文档，深吸一口气。**今天**，他要写一份*传世*的 README。
+ZZ 盯着空白文档，深吸一口气。**今天**，他要写一份*传世*的 README。
 
 不是那种三行半、README.md 里只有 `TODO: 待补充` 的 README，而是一份**真正**能让后来者看懂他代码的 README——尽管"后来者"大概率就是三个月后的他自己。
 
@@ -18,7 +18,7 @@ description: 本文仅用于测试 Markdown 语法
 
 ## 第一章：自我介绍（标题与排版）
 
-小张决定先介绍一下这个项目。他打开了他的"作品"：
+ZZ 决定先介绍一下这个项目。他打开了他的"作品"：
 
 ### 项目名称
 
@@ -71,7 +71,7 @@ free -h 2>/dev/null || vm_stat | head -5
 
 ## 第三章：核心算法（JavaScript 与 TypeScript）
 
-小张的核心算法，历经三年打磨：
+ZZ 的核心算法，历经三年打磨：
 
 ```javascript
 // 警告：此函数受专利保护（专利申请中，申请号：我编的）
@@ -112,7 +112,7 @@ type MathOperation<T extends number> = (x: T, y: T) => CalculationResult;
 
 ## 第四章：性能对比（表格）
 
-小张非常严谨地做了性能测试：
+ZZ 非常严谨地做了性能测试：
 
 | 计算器         | 1+1 耗时 | 内存占用 | 是否开源         |
 | -------------- | -------- | -------- | ---------------- |
@@ -121,7 +121,7 @@ type MathOperation<T extends number> = (x: T, y: T) => CalculationResult;
 | 心算           | 0.5ms    | 0MB      | 取决于心情       |
 | 手指头         | 2000ms   | 取决于手 | 开源（10 根）    |
 
-_注：测试环境为小张的 MacBook Pro，开着 47 个 Chrome 标签页。_
+_注：测试环境为 ZZ 的 MacBook Pro，开着 47 个 Chrome 标签页。_
 
 ---
 
@@ -160,7 +160,7 @@ features:
   multiplication: 下辈子
 
 author:
-  name: 小张
+  name: ZZ
   mood: 忙碌但快乐
   coffee_cups_today: 很多
 
@@ -172,7 +172,7 @@ deployment:
 
 ## 第六章：前端展示（HTML 与 CSS）
 
-小张还做了一个网页界面：
+ZZ 还做了一个网页界面：
 
 ```html
 <!doctype html>
@@ -193,7 +193,7 @@ deployment:
 ```
 
 ```css
-/* 小张的美学：极简主义（其实是懒） */
+/* ZZ 的美学：极简主义（其实是懒） */
 * {
   box-sizing: border-box;
   font-family: "Comic Sans MS", cursive; /* 显示专业性 */
@@ -219,7 +219,7 @@ button {
 
 ## 第七章：高性能重写（Rust）
 
-投资人要求"用 Rust 重写以提升十倍性能"，小张照做了：
+投资人要求"用 Rust 重写以提升十倍性能"，ZZ 照做了：
 
 ````rust
 // 用 Rust 重写的加法——现在快了 0.000001 毫秒
@@ -262,7 +262,7 @@ fn main() {
 
 ## 第八章：一次惨痛的 Bug（Diff）
 
-上线第一天，用户反馈"1 + 1 = 3"。经查，是小张昨晚改的一个"微小优化"：
+上线第一天，用户反馈"1 + 1 = 3"。经查，是 ZZ 昨晚改的一个"微小优化"：
 
 ```diff
 - function superFastAdd(a, b) {
@@ -282,7 +282,7 @@ fn main() {
 
 ## 第九章：内嵌 Markdown 的 README（Markdown in Markdown）
 
-小张在 README 里贴了一段"如何写好 README"的 Markdown 示例：
+ZZ 在 README 里贴了一段"如何写好 README"的 Markdown 示例：
 
 ```markdown
 # 好 README 的三要素
@@ -301,7 +301,7 @@ fn main() {
 
 ## 尾声：有序与无序
 
-三个月后，小张看到了这份 README，感动得热泪盈眶。
+三个月后，ZZ 看到了这份 README，感动得热泪盈眶。
 
 他学到了以下经验教训：
 
