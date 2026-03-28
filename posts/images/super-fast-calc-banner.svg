@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="600" height="300">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#12172b"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#d4b95e"/>
+      <stop offset="100%" stop-color="#f0d688"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="300" rx="14" fill="url(#bg)"/>
+
+  <!-- Subtle grid -->
+  <g stroke="#ffffff" stroke-width="0.5" opacity="0.04">
+    <line x1="0" y1="75" x2="600" y2="75"/>
+    <line x1="0" y1="150" x2="600" y2="150"/>
+    <line x1="0" y1="225" x2="600" y2="225"/>
+    <line x1="150" y1="0" x2="150" y2="300"/>
+    <line x1="300" y1="0" x2="300" y2="300"/>
+    <line x1="450" y1="0" x2="450" y2="300"/>
+  </g>
+
+  <!-- Corner decorations -->
+  <rect x="0" y="0" width="3" height="56" rx="2" fill="#d4b95e" opacity="0.7"/>
+  <rect x="0" y="0" width="56" height="3" rx="2" fill="#d4b95e" opacity="0.7"/>
+  <rect x="544" y="297" width="56" height="3" rx="2" fill="#d4b95e" opacity="0.25"/>
+  <rect x="597" y="244" width="3" height="56" rx="2" fill="#d4b95e" opacity="0.25"/>
+
+  <!-- Patent badge -->
+  <rect x="22" y="18" width="126" height="22" rx="11" fill="#d4b95e" fill-opacity="0.12" stroke="#d4b95e" stroke-width="1" stroke-opacity="0.5"/>
+  <text x="85" y="33" text-anchor="middle" font-family="monospace" font-size="11" font-weight="600" fill="#d4b95e">PATENT PENDING</text>
+
+  <!-- Version chip -->
+  <rect x="454" y="18" width="124" height="22" rx="11" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <text x="516" y="33" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.4)">v0.0.1-alpha-rc1</text>
+
+  <!-- Title -->
+  <text x="300" y="86" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="34" font-weight="700" fill="#ffffff" opacity="0.95" filter="url(#glow)">SuperFastCalc™</text>
+
+  <!-- Tagline -->
+  <text x="300" y="112" text-anchor="middle" font-family="-apple-system, sans-serif" font-size="13" fill="rgba(255,255,255,0.38)">改变世界，从 1 + 1 开始</text>
+
+  <!-- Equation card -->
+  <rect x="90" y="130" width="420" height="82" rx="12" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+
+  <text x="192" y="186" text-anchor="middle" font-family="monospace" font-size="46" fill="rgba(255,255,255,0.65)">1</text>
+  <text x="240" y="186" text-anchor="middle" font-family="monospace" font-size="36" fill="rgba(255,255,255,0.3)">+</text>
+  <text x="288" y="186" text-anchor="middle" font-family="monospace" font-size="46" fill="rgba(255,255,255,0.65)">1</text>
+  <text x="336" y="186" text-anchor="middle" font-family="monospace" font-size="36" fill="rgba(255,255,255,0.25)">=</text>
+  <text x="400" y="190" text-anchor="middle" font-family="monospace" font-size="52" font-weight="bold" fill="url(#gold)" filter="url(#glow)">2</text>
+
+  <!-- Stats -->
+  <rect x="50" y="232" width="148" height="46" rx="9" fill="rgba(40,200,64,0.08)" stroke="rgba(40,200,64,0.28)" stroke-width="1"/>
+  <text x="124" y="250" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(40,200,64,0.7)">响应时间</text>
+  <text x="124" y="268" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#28c840">0.001 ms</text>
+
+  <rect x="226" y="232" width="148" height="46" rx="9" fill="rgba(212,185,94,0.08)" stroke="rgba(212,185,94,0.28)" stroke-width="1"/>
+  <text x="300" y="250" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(212,185,94,0.7)">测试通过率</text>
+  <text x="300" y="268" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#d4b95e">100% *</text>
+
+  <rect x="402" y="232" width="148" height="46" rx="9" fill="rgba(255,95,87,0.08)" stroke="rgba(255,95,87,0.28)" stroke-width="1"/>
+  <text x="476" y="250" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(255,95,87,0.7)">技术债指数</text>
+  <text x="476" y="268" text-anchor="middle" font-family="monospace" font-size="15" font-weight="bold" fill="#ff5f57">∞</text>
+
+  <!-- Footnote -->
+  <text x="300" y="292" text-anchor="middle" font-family="monospace" font-size="10" fill="rgba(255,255,255,0.2)">* 仅测试了 1+1=2 这一个用例，结果令人满意</text>
+</svg>

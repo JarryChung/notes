@@ -4,6 +4,8 @@ date: 2026-03-21
 description: 本文仅用于测试 Markdown 语法
 ---
 
+![SuperFastCalc™ 发布会](./images/super-fast-calc-banner.svg)
+
 ## 序章：一个关于 README 的严肃承诺
 
 ZZ 盯着空白文档，深吸一口气。**今天**，他要写一份*传世*的 README。
