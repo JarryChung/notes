@@ -229,13 +229,37 @@ async function build(postsDir, publicDir) {
   posts.sort((a, b) => b.date - a.date);
 
   // 8. Generate individual post pages
-  for (const post of posts) {
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i];
+    const prevPost = i > 0 ? posts[i - 1] : null;
+    const nextPost = i < posts.length - 1 ? posts[i + 1] : null;
+
+    const prevHtml = prevPost
+      ? `<a class="post-nav__item post-nav__item--prev" href="${prevPost.slug}.html">
+        <span class="post-nav__label">上一篇</span>
+        <span class="post-nav__title">${prevPost.title}</span>
+      </a>`
+      : `<span class="post-nav__item post-nav__item--prev post-nav__item--empty"></span>`;
+
+    const nextHtml = nextPost
+      ? `<a class="post-nav__item post-nav__item--next" href="${nextPost.slug}.html">
+        <span class="post-nav__label">下一篇</span>
+        <span class="post-nav__title">${nextPost.title}</span>
+      </a>`
+      : `<span class="post-nav__item post-nav__item--next post-nav__item--empty"></span>`;
+
+    const postNavHtml = `<nav class="post-nav" aria-label="文章导航">
+      ${prevHtml}
+      ${nextHtml}
+    </nav>`;
+
     const html = postTemplate
       .replaceAll('{{TITLE}}',       post.title)
       .replaceAll('{{DATE}}',        post.dateStr)
       .replaceAll('{{CONTENT}}',     post.html)
       .replaceAll('{{DESCRIPTION}}', post.excerpt)
-      .replaceAll('{{SLUG}}',        post.slug);
+      .replaceAll('{{SLUG}}',        post.slug)
+      .replaceAll('{{POST_NAV}}',    postNavHtml);
     await fs.writeFile(join(publicDir, 'posts', `${post.slug}.html`), html);
   }
 

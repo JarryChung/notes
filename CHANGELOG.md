@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.2.3] - 2026-03-28
+
+### Added
+- `src/post.html`: Added `.post-back` block below `{{POST_NAV}}` with a static `← 回到首页` link pointing to `../index.html`
+- `src/styles.css`: `.post-back` centered container + `.post-back__link` — `var(--text-secondary)` default color, transitions to `var(--text)` on hover/active; hover wrapped in `@media (hover: hover)`
+
+## [1.2.2] - 2026-03-28
+
+### Added
+- `src/post.html`: Added `{{POST_NAV}}` placeholder after `<article>` for build-time injection of prev/next navigation
+- `src/build.js`: Computes `prevPost` (index `i-1`, newer) and `nextPost` (index `i+1`, older) for each post in the date-descending sorted list; generates `.post-nav` HTML with two `.post-nav__item` anchors (or empty `<span>` placeholders when no adjacent post exists); injected via `{{POST_NAV}}` into each post page at build time
+- `src/styles.css`: `.post-nav` styles — `flex` row with `space-between`, `border-top` separator; `.post-nav__item--next` right-aligned via `text-align: right; margin-left: auto`; `.post-nav__label` in `var(--accent)` uppercase caps; `.post-nav__title` two-line clamp; hover wrapped in `@media (hover: hover)`
+
 ## [1.2.1] - 2026-03-28
 
 ### Fixed
