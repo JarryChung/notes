@@ -6,6 +6,37 @@
     <title>{{TITLE}} | ZJIZHUANG</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>" />
     <meta name="description" content="{{DESCRIPTION}}" />
+    <link rel="canonical" href="{{CANONICAL_URL}}" />
+    <meta property="og:title" content="{{TITLE}}" />
+    <meta property="og:description" content="{{DESCRIPTION}}" />
+    <meta property="og:url" content="{{CANONICAL_URL}}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="ZJIZHUANG's Notes" />
+    <meta property="og:locale" content="zh_CN" />
+    {{OG_IMAGE_META}}
+    <meta name="twitter:card" content="{{TWITTER_CARD_TYPE}}" />
+    <meta name="twitter:title" content="{{TITLE}}" />
+    <meta name="twitter:description" content="{{DESCRIPTION}}" />
+    {{TWITTER_IMAGE_META}}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "{{TITLE_JSON}}",
+      "description": "{{DESCRIPTION_JSON}}",
+      "datePublished": "{{DATE_ISO}}",
+      "url": "{{CANONICAL_URL}}",
+      "author": {
+        "@type": "Person",
+        "name": "ZJIZHUANG",
+        "url": "{{SITE_URL}}"
+      },
+      "publisher": {
+        "@type": "Person",
+        "name": "ZJIZHUANG"
+      }
+    }
+    </script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css"

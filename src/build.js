@@ -20,6 +20,34 @@ function escapeXml(str) {
     .replace(/'/g, "&apos;");
 }
 
+async function generateSitemap(posts, publicDir, siteUrl) {
+  if (!siteUrl) return;
+  const base = siteUrl.replace(/\/$/, "");
+  const urlEntries = [
+    `  <url>\n    <loc>${base}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>`,
+    ...posts.map((post) => {
+      const loc = escapeXml(`${base}/posts/${post.slug}.html`);
+      const lastmod =
+        post.date instanceof Date && !isNaN(post.date.getTime())
+          ? post.date.toISOString().slice(0, 10)
+          : "";
+      const lastmodXml = lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : "";
+      return `  <url>\n    <loc>${loc}</loc>${lastmodXml}\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>`;
+    }),
+  ].join("\n");
+
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urlEntries}\n</urlset>`;
+  await fs.writeFile(join(publicDir, "sitemap.xml"), xml, "utf-8");
+}
+
+async function generateRobotsTxt(publicDir, siteUrl) {
+  const sitemapLine = siteUrl
+    ? `\nSitemap: ${siteUrl.replace(/\/$/, "")}/sitemap.xml`
+    : "";
+  const content = `User-agent: *\nAllow: /${sitemapLine}\n`;
+  await fs.writeFile(join(publicDir, "robots.txt"), content, "utf-8");
+}
+
 async function generateRss(posts, publicDir, siteUrl) {
   const base = siteUrl.replace(/\/$/, "");
   const feedUrl = base ? `${base}/feed.xml` : "feed.xml";
@@ -242,14 +270,18 @@ async function build(postsDir, publicDir) {
   // 3. Copy images and other non-.md files from posts/ → public/posts/
   await copyNonMdFiles(postsDir, join(publicDir, "posts"));
 
-  // 4. Load templates (inject toggle button partial into {{THEME_TOGGLE}})
+  // 4. Load templates (inject toggle button partial and constant values)
   const toggleHtml = await fs.readFile(join(srcDir, "toggle.html"), "utf-8");
   const indexTemplate = (
     await fs.readFile(join(srcDir, "index.html"), "utf-8")
-  ).replaceAll("{{THEME_TOGGLE}}", toggleHtml);
+  )
+    .replaceAll("{{THEME_TOGGLE}}", toggleHtml)
+    .replaceAll("{{SITE_URL}}", SITE_URL);
   const postTemplate = (
     await fs.readFile(join(srcDir, "post.html"), "utf-8")
-  ).replaceAll("{{THEME_TOGGLE}}", toggleHtml);
+  )
+    .replaceAll("{{THEME_TOGGLE}}", toggleHtml)
+    .replaceAll("{{SITE_URL}}", SITE_URL);
 
   // 5. Discover markdown files
   let files;
@@ -305,6 +337,7 @@ async function build(postsDir, publicDir) {
         excerpt,
         html,
         thumbnailSrc,
+        firstImage,
       };
     }),
   );
@@ -337,12 +370,43 @@ async function build(postsDir, publicDir) {
       ${nextHtml}
     </nav>`;
 
+    const canonicalUrl = SITE_URL
+      ? `${SITE_URL}/posts/${post.slug}.html`
+      : "";
+    const dateIso =
+      post.date instanceof Date && !isNaN(post.date.getTime())
+        ? post.date.toISOString().slice(0, 10)
+        : post.dateStr.replace(/\./g, "-");
+    const ogImageUrl =
+      SITE_URL && post.firstImage && !/^(https?:|\/\/)/.test(post.firstImage)
+        ? `${SITE_URL}/posts/${post.firstImage.replace(/^\.\//, "")}`
+        : post.firstImage && /^https?:/.test(post.firstImage)
+          ? post.firstImage
+          : "";
+    const ogImageMeta = ogImageUrl
+      ? `<meta property="og:image" content="${ogImageUrl}" />`
+      : "";
+    const twitterCardType = ogImageUrl ? "summary_large_image" : "summary";
+    const twitterImageMeta = ogImageUrl
+      ? `<meta name="twitter:image" content="${ogImageUrl}" />`
+      : "";
+
     const html = postTemplate
       .replaceAll("{{TITLE}}", post.title)
+      .replaceAll("{{TITLE_JSON}}", JSON.stringify(post.title).slice(1, -1))
       .replaceAll("{{DATE}}", post.dateStr)
+      .replaceAll("{{DATE_ISO}}", dateIso)
       .replaceAll("{{CONTENT}}", post.html)
       .replaceAll("{{DESCRIPTION}}", post.excerpt)
+      .replaceAll(
+        "{{DESCRIPTION_JSON}}",
+        JSON.stringify(post.excerpt).slice(1, -1),
+      )
       .replaceAll("{{SLUG}}", post.slug)
+      .replaceAll("{{CANONICAL_URL}}", canonicalUrl)
+      .replaceAll("{{OG_IMAGE_META}}", ogImageMeta)
+      .replaceAll("{{TWITTER_CARD_TYPE}}", twitterCardType)
+      .replaceAll("{{TWITTER_IMAGE_META}}", twitterImageMeta)
       .replaceAll("{{POST_NAV}}", postNavHtml);
     await fs.writeFile(join(publicDir, "posts", `${post.slug}.html`), html);
   }
@@ -371,6 +435,8 @@ async function build(postsDir, publicDir) {
   await fs.writeFile(join(publicDir, "index.html"), indexHtml);
 
   await generateRss(posts, publicDir, SITE_URL);
+  await generateSitemap(posts, publicDir, SITE_URL);
+  await generateRobotsTxt(publicDir, SITE_URL);
 
   console.log(
     `✓ Built ${posts.length} post${posts.length !== 1 ? "s" : ""} → ${publicDir}`,

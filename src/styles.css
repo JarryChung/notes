@@ -95,8 +95,8 @@ body {
   position: absolute;
   z-index: 0;
   inset: 0;
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(8px) saturate(180%);
+  -webkit-backdrop-filter: blur(8px) saturate(180%);
   filter: url(#glass-distortion);
   overflow: hidden;
   isolation: isolate;
@@ -108,11 +108,11 @@ body {
   z-index: 1;
   inset: 0;
   border-radius: var(--radius-pill);
-  background: rgba(252, 252, 254, 0.25);
+  background: rgba(252, 252, 254, 0.08);
 }
 
 [data-theme="dark"] .liquidGlass-tint {
-  background: rgba(14, 16, 22, 0.55);
+  background: rgba(14, 16, 22, 0.28);
 }
 
 .liquidGlass-shine {
@@ -151,7 +151,6 @@ body {
 [data-theme="dark"] .navbar-logo img {
   filter: invert(1);
 }
-
 
 .navbar-toggle {
   position: relative;
@@ -943,7 +942,9 @@ main {
 }
 
 @media (hover: hover) {
-  .site-footer__rss:hover { color: var(--text); }
+  .site-footer__rss:hover {
+    color: var(--text);
+  }
 }
 
 /* ─── Back to Home ──────────────────────────────────── */
@@ -979,7 +980,9 @@ main {
 }
 
 @media (hover: hover) {
-  .post-back__rss:hover { color: var(--text); }
+  .post-back__rss:hover {
+    color: var(--text);
+  }
 }
 
 /* ─── Responsive ────────────────────────────────────── */

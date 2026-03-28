@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.1] - 2026-03-28
+
+### Changed
+- `src/styles.css`: `.liquidGlass-tint` alpha reduced from `0.25` → `0.08` (light) and `0.55` → `0.28` (dark) — makes the navbar more transparent so the `backdrop-filter` blur reveals content scrolling beneath
+
+## [1.3.0] - 2026-03-28
+
+### Added
+- `src/index.html`: `<meta name="description">` with site tagline; `<link rel="canonical" href="{{SITE_URL}}/">` for deduplication; Open Graph tags (`og:title`, `og:description`, `og:url`, `og:type`, `og:site_name`, `og:locale`); Twitter Card tags (`twitter:card`, `twitter:title`, `twitter:description`)
+- `src/post.html`: `<link rel="canonical" href="{{CANONICAL_URL}}">` per post; Open Graph article tags (`og:type: article`, `og:image` when post has a cover image); Twitter Card tags with `summary_large_image` when image present; `{{OG_IMAGE_META}}` / `{{TWITTER_IMAGE_META}}` / `{{TWITTER_CARD_TYPE}}` placeholders; JSON-LD `BlogPosting` structured data block with `headline`, `description`, `datePublished`, `url`, `author`, `publisher` using `{{TITLE_JSON}}` / `{{DESCRIPTION_JSON}}` / `{{DATE_ISO}}` / `{{CANONICAL_URL}}` / `{{SITE_URL}}` placeholders
+- `src/build.js`: `generateSitemap(posts, publicDir, siteUrl)` — generates `public/sitemap.xml` (XML Sitemap 0.9) with homepage entry (`priority 1.0`, `weekly`) and one entry per post (`priority 0.8`, `monthly`, `<lastmod>` from `post.date.toISOString()`); `generateRobotsTxt(publicDir, siteUrl)` — generates `public/robots.txt` with `Allow: /` and `Sitemap:` directive; both called at end of `build()`; `SITE_URL` constant now injected into templates at load time via `replaceAll("{{SITE_URL}}", SITE_URL)`; per-post replacements added for `{{CANONICAL_URL}}`, `{{DATE_ISO}}`, `{{OG_IMAGE_META}}`, `{{TWITTER_CARD_TYPE}}`, `{{TWITTER_IMAGE_META}}`, `{{TITLE_JSON}}`, `{{DESCRIPTION_JSON}}`; `firstImage` field added to the post object for OG image URL computation; OG image URL built as `${SITE_URL}/posts/${firstImage}` (falls through for external URLs)
+
 ## [1.2.4] - 2026-03-28
 
 ### Added
