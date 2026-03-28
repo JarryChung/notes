@@ -594,7 +594,7 @@ body {
 main {
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: 20px 16px 64px;
+  padding: 0px 16px 36px;
 }
 
 /* ─── Post List (Index Page) ────────────────────────── */
@@ -633,7 +633,7 @@ main {
 }
 
 .post-title {
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 600;
   letter-spacing: -0.3px;
   line-height: 1.25;
@@ -645,7 +645,7 @@ main {
 }
 
 .post-meta {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-secondary);
   line-height: 1.5;
   white-space: nowrap;
@@ -688,7 +688,7 @@ main {
 }
 
 .post-header h1 {
-  font-size: 23px;
+  font-size: 21px;
   font-weight: 600;
   letter-spacing: -0.3px;
   line-height: 1.25;
@@ -697,7 +697,7 @@ main {
 }
 
 .post-date {
-  font-size: 17px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
@@ -725,16 +725,16 @@ main {
 }
 
 .post-content h1 {
-  font-size: 23px;
-}
-.post-content h2 {
   font-size: 21px;
 }
-.post-content h3 {
+.post-content h2 {
   font-size: 19px;
 }
-.post-content h4 {
+.post-content h3 {
   font-size: 17px;
+}
+.post-content h4 {
+  font-size: 15px;
   letter-spacing: 0;
 }
 
@@ -878,10 +878,10 @@ main {
 /* ─── Responsive ────────────────────────────────────── */
 @media (max-width: 640px) {
   .post-title {
-    font-size: 23px;
+    font-size: 21px;
   }
   .post-header h1 {
-    font-size: 23px;
+    font-size: 21px;
   }
   .post-content {
     font-size: 17px;
