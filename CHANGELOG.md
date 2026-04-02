@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.3] - 2026-04-02
+
+### Changed
+- `src/index.html`, `src/post.html`: Replace favicon with `favicon.png`
+- `src/build.js`: Copy `favicon.png` to `public/assets/` during build
+
+## [1.3.2] - 2026-04-02
+
+### Changed
+- `src/index.html`, `src/post.html`: Replace inline SVG emoji (✏️) favicon with `logo.png`
+
 ## [1.3.1] - 2026-03-28
 
 ### Changed

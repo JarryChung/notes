@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{TITLE}} | ZJIZHUANG</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✏️</text></svg>" />
+    <link rel="icon" type="image/png" href="./assets/favicon.png" />
     <meta name="description" content="{{DESCRIPTION}}" />
     <link rel="canonical" href="{{CANONICAL_URL}}" />
     <meta property="og:title" content="{{TITLE}}" />
@@ -19,30 +19,35 @@
     <meta name="twitter:description" content="{{DESCRIPTION}}" />
     {{TWITTER_IMAGE_META}}
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": "{{TITLE_JSON}}",
-      "description": "{{DESCRIPTION_JSON}}",
-      "datePublished": "{{DATE_ISO}}",
-      "url": "{{CANONICAL_URL}}",
-      "author": {
-        "@type": "Person",
-        "name": "ZJIZHUANG",
-        "url": "{{SITE_URL}}"
-      },
-      "publisher": {
-        "@type": "Person",
-        "name": "ZJIZHUANG"
+      {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{TITLE_JSON}}",
+        "description": "{{DESCRIPTION_JSON}}",
+        "datePublished": "{{DATE_ISO}}",
+        "url": "{{CANONICAL_URL}}",
+        "author": {
+          "@type": "Person",
+          "name": "ZJIZHUANG",
+          "url": "{{SITE_URL}}"
+        },
+        "publisher": {
+          "@type": "Person",
+          "name": "ZJIZHUANG"
+        }
       }
-    }
     </script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-lite-webfont@1.1.0/style.css"
     />
     <link rel="stylesheet" href="../assets/styles.css" />
-    <link rel="alternate" type="application/rss+xml" title="ZJIZHUANG's Notes" href="../feed.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="ZJIZHUANG's Notes"
+      href="../feed.xml"
+    />
     <script>
       // Runs before first paint — prevents theme flash
       (function () {

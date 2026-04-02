@@ -266,6 +266,10 @@ async function build(postsDir, publicDir) {
     join(srcDir, "logo.png"),
     join(publicDir, "assets", "logo.png"),
   );
+  await fs.copyFile(
+    join(srcDir, "favicon.png"),
+    join(publicDir, "assets", "favicon.png"),
+  );
 
   // 3. Copy images and other non-.md files from posts/ → public/posts/
   await copyNonMdFiles(postsDir, join(publicDir, "posts"));
