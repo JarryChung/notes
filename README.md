@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/uploads/48a0474a4d6807de628a3572498bd274/notes.png" />
+  <img src="./notes.png" />
 </div>
 
 ```
