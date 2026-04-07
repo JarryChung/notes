@@ -208,6 +208,45 @@ async function copyNonMdFiles(src, dest) {
   }
 }
 
+async function generateReadme(posts, rootDir) {
+  const readmePath = join(rootDir, "README.md");
+  let readme = "";
+  try {
+    readme = await fs.readFile(readmePath, "utf-8");
+  } catch {
+    // README doesn't exist yet
+  }
+
+  const escapeCell = (str) =>
+    String(str).replace(/\\/g, "\\\\").replace(/\|/g, "\\|");
+
+  const rows = posts.map((post) => {
+    const url = `posts/${post.slug}.md`;
+    return `| [${escapeCell(post.title)}](${url}) | ${post.dateStr} |`;
+  });
+
+  const postsSection = [
+    "<!-- POSTS_START -->",
+    "",
+    "| Title | Date |",
+    "| --- | --- |",
+    ...rows,
+    "<!-- POSTS_END -->",
+  ].join("\n");
+
+  const START = "<!-- POSTS_START -->";
+  const END = "<!-- POSTS_END -->";
+  if (readme.includes(START) && readme.includes(END)) {
+    const before = readme.slice(0, readme.indexOf(START));
+    const after = readme.slice(readme.indexOf(END) + END.length);
+    readme = before + postsSection + after;
+  } else {
+    readme = readme.trimEnd() + "\n\n" + postsSection + "\n";
+  }
+
+  await fs.writeFile(readmePath, readme, "utf-8");
+}
+
 async function build(postsDir, publicDir) {
   const srcDir = join(ROOT, "src");
 
@@ -276,14 +315,10 @@ async function build(postsDir, publicDir) {
 
   // 4. Load templates (inject toggle button partial and constant values)
   const toggleHtml = await fs.readFile(join(srcDir, "toggle.html"), "utf-8");
-  const indexTemplate = (
-    await fs.readFile(join(srcDir, "index.html"), "utf-8")
-  )
+  const indexTemplate = (await fs.readFile(join(srcDir, "index.html"), "utf-8"))
     .replaceAll("{{THEME_TOGGLE}}", toggleHtml)
     .replaceAll("{{SITE_URL}}", SITE_URL);
-  const postTemplate = (
-    await fs.readFile(join(srcDir, "post.html"), "utf-8")
-  )
+  const postTemplate = (await fs.readFile(join(srcDir, "post.html"), "utf-8"))
     .replaceAll("{{THEME_TOGGLE}}", toggleHtml)
     .replaceAll("{{SITE_URL}}", SITE_URL);
 
@@ -374,9 +409,7 @@ async function build(postsDir, publicDir) {
       ${nextHtml}
     </nav>`;
 
-    const canonicalUrl = SITE_URL
-      ? `${SITE_URL}/posts/${post.slug}.html`
-      : "";
+    const canonicalUrl = SITE_URL ? `${SITE_URL}/posts/${post.slug}.html` : "";
     const dateIso =
       post.date instanceof Date && !isNaN(post.date.getTime())
         ? post.date.toISOString().slice(0, 10)
@@ -441,6 +474,7 @@ async function build(postsDir, publicDir) {
   await generateRss(posts, publicDir, SITE_URL);
   await generateSitemap(posts, publicDir, SITE_URL);
   await generateRobotsTxt(publicDir, SITE_URL);
+  await generateReadme(posts, ROOT);
 
   console.log(
     `✓ Built ${posts.length} post${posts.length !== 1 ? "s" : ""} → ${publicDir}`,

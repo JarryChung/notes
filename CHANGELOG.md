@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.6] - 2026-04-07
+
+### Changed
+- `src/build.js`: `generateReadme` — table header columns renamed from `标题 / 日期` to `Title / Date`
+
+## [1.3.5] - 2026-04-07
+
+### Changed
+- `src/build.js`: `generateReadme` — post title cells now escape `\` and `|` via `escapeCell()` to prevent broken table rendering; links now use repo-relative paths (`posts/{slug}.md`) instead of absolute site URLs; `siteUrl` parameter removed from the function signature
+
+## [1.3.4] - 2026-04-07
+
+### Added
+- `src/build.js`: `generateReadme(posts, rootDir, siteUrl)` — updates `README.md` with a post list table (`标题` / `日期`) under a `## Posts` heading; uses `<!-- POSTS_START -->` / `<!-- POSTS_END -->` markers so the generated section is replaced on each build while preserving hand-written content above; appended on first build if markers are absent
+
 ## [1.3.3] - 2026-04-02
 
 ### Changed

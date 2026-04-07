@@ -46,7 +46,7 @@ ZZ 决定先介绍一下这个项目。他打开了他的"作品"：
 
 ```bash
 # 先把项目克隆下来
-git clone https://github.com/xiaozhang/super-fast-calc.git
+git clone https://github.com/zz/super-fast-calc.git
 cd super-fast-calc
 
 # 安装依赖（会有 1,337 个警告，请忽略）
