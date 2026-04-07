@@ -4,6 +4,8 @@ date: 2023-10-13 20:06
 description: 解决问题
 ---
 
+![工作的本质](./images/the-essence-of-work-banner.svg)
+
 当提到「工作是什么」这一话题时，常常能听到以下几种说法：
 * 是写出清晰明了的需求文档
 * 是做好测试，减少线上bug

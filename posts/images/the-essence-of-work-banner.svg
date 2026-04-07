@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 400" width="940" height="400">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141820"/>
+      <stop offset="100%" stop-color="#0c1016"/>
+    </linearGradient>
+    <!-- Gold gradient for text -->
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c9a84c"/>
+      <stop offset="50%" stop-color="#f0d688"/>
+      <stop offset="100%" stop-color="#c9a84c"/>
+    </linearGradient>
+    <!-- Ambient center glow -->
+    <radialGradient id="centerGlow" cx="50%" cy="50%" r="32%">
+      <stop offset="0%" stop-color="#d4b95e" stop-opacity="0.09"/>
+      <stop offset="100%" stop-color="#d4b95e" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Left side ambient glow -->
+    <radialGradient id="leftGlow" cx="28%" cy="43%" r="22%">
+      <stop offset="0%" stop-color="#d4b95e" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#d4b95e" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Right side ambient glow -->
+    <radialGradient id="rightGlow" cx="72%" cy="43%" r="22%">
+      <stop offset="0%" stop-color="#d4b95e" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="#d4b95e" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Text glow filter -->
+    <filter id="textGlow" x="-20%" y="-30%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Node glow filter -->
+    <filter id="nodeGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- ─── Background ─────────────────────────────── -->
+  <rect width="940" height="400" fill="url(#bg)"/>
+  <rect width="940" height="400" fill="url(#centerGlow)"/>
+  <rect width="940" height="400" fill="url(#leftGlow)"/>
+  <rect width="940" height="400" fill="url(#rightGlow)"/>
+
+  <!-- Subtle grid lines -->
+  <g stroke="#ffffff" stroke-width="0.5" opacity="0.025">
+    <line x1="0" y1="133" x2="940" y2="133"/>
+    <line x1="0" y1="267" x2="940" y2="267"/>
+    <line x1="313" y1="0" x2="313" y2="400"/>
+    <line x1="627" y1="0" x2="627" y2="400"/>
+  </g>
+
+  <!-- ─── LEFT NODE NETWORK ──────────────────────── -->
+  <!-- Outer connection lines -->
+  <line x1="58" y1="85"  x2="192" y2="115" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="128" y1="52" x2="192" y2="115" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="82"  y1="172" x2="192" y2="115" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <line x1="52"  y1="248" x2="172" y2="228" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="145" y1="305" x2="172" y2="228" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <line x1="42"  y1="340" x2="172" y2="228" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+  <!-- Convergence lines -->
+  <line x1="192" y1="115" x2="270" y2="168" stroke="rgba(212,185,94,0.22)" stroke-width="1.5"/>
+  <line x1="172" y1="228" x2="270" y2="168" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+
+  <!-- Dashed arrow toward center -->
+  <line x1="270" y1="168" x2="398" y2="194" stroke="rgba(212,185,94,0.28)" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- Outer dim nodes -->
+  <circle cx="58"  cy="85"  r="4"   fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)"  stroke-width="1"/>
+  <circle cx="128" cy="52"  r="3.5" fill="rgba(255,255,255,0.1)"  stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+  <circle cx="82"  cy="172" r="3.5" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <circle cx="52"  cy="248" r="3"   fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <circle cx="145" cy="305" r="3"   fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)"  stroke-width="1"/>
+  <circle cx="42"  cy="340" r="2.5" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Gold highlighted intermediate nodes -->
+  <circle cx="192" cy="115" r="6" fill="#d4b95e" fill-opacity="0.14" stroke="#d4b95e" stroke-width="1.5" stroke-opacity="0.55" filter="url(#nodeGlow)"/>
+  <circle cx="172" cy="228" r="5" fill="rgba(255,255,255,0.1)"  stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+
+  <!-- Main convergence node (left) -->
+  <circle cx="270" cy="168" r="8" fill="#d4b95e" fill-opacity="0.18" stroke="#d4b95e" stroke-width="1.5" stroke-opacity="0.75" filter="url(#nodeGlow)"/>
+
+  <!-- Endpoint at center edge -->
+  <circle cx="398" cy="194" r="4.5" fill="rgba(212,185,94,0.35)" stroke="rgba(212,185,94,0.6)" stroke-width="1" filter="url(#nodeGlow)"/>
+
+  <!-- Node micro-labels -->
+  <text x="58"  y="78"  text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.28)">需求</text>
+  <text x="128" y="45"  text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.25)">测试</text>
+  <text x="82"  y="165" text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.22)">代码</text>
+  <text x="52"  y="241" text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.2)">发布</text>
+  <text x="145" y="298" text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.18)">数据</text>
+
+
+  <!-- ─── RIGHT NODE NETWORK (mirrored) ─────────── -->
+  <!-- Outer connection lines -->
+  <line x1="882" y1="85"  x2="748" y2="115" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="812" y1="52"  x2="748" y2="115" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+  <line x1="858" y1="172" x2="748" y2="115" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <line x1="888" y1="248" x2="768" y2="228" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="795" y1="305" x2="768" y2="228" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+  <line x1="898" y1="340" x2="768" y2="228" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+
+  <!-- Convergence lines -->
+  <line x1="748" y1="115" x2="670" y2="168" stroke="rgba(212,185,94,0.22)" stroke-width="1.5"/>
+  <line x1="768" y1="228" x2="670" y2="168" stroke="rgba(255,255,255,0.09)" stroke-width="1"/>
+
+  <!-- Dashed arrow toward center -->
+  <line x1="670" y1="168" x2="542" y2="194" stroke="rgba(212,185,94,0.28)" stroke-width="1.5" stroke-dasharray="5,4"/>
+
+  <!-- Outer dim nodes -->
+  <circle cx="882" cy="85"  r="4"   fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.2)"  stroke-width="1"/>
+  <circle cx="812" cy="52"  r="3.5" fill="rgba(255,255,255,0.1)"  stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+  <circle cx="858" cy="172" r="3.5" fill="rgba(255,255,255,0.09)" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <circle cx="888" cy="248" r="3"   fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+  <circle cx="795" cy="305" r="3"   fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.1)"  stroke-width="1"/>
+  <circle cx="898" cy="340" r="2.5" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+  <!-- Gold highlighted intermediate nodes -->
+  <circle cx="748" cy="115" r="6" fill="#d4b95e" fill-opacity="0.14" stroke="#d4b95e" stroke-width="1.5" stroke-opacity="0.55" filter="url(#nodeGlow)"/>
+  <circle cx="768" cy="228" r="5" fill="rgba(255,255,255,0.1)"  stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+
+  <!-- Main convergence node (right) -->
+  <circle cx="670" cy="168" r="8" fill="#d4b95e" fill-opacity="0.18" stroke="#d4b95e" stroke-width="1.5" stroke-opacity="0.75" filter="url(#nodeGlow)"/>
+
+  <!-- Endpoint at center edge -->
+  <circle cx="542" cy="194" r="4.5" fill="rgba(212,185,94,0.35)" stroke="rgba(212,185,94,0.6)" stroke-width="1" filter="url(#nodeGlow)"/>
+
+  <!-- Node micro-labels -->
+  <text x="882" y="78"  text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.28)">流程</text>
+  <text x="812" y="45"  text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.25)">架构</text>
+  <text x="858" y="165" text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.22)">产品</text>
+  <text x="888" y="241" text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.2)">协作</text>
+  <text x="795" y="298" text-anchor="middle" font-family="monospace" font-size="8.5" fill="rgba(255,255,255,0.18)">迭代</text>
+
+
+  <!-- ─── CORNER DECORATIONS ─────────────────────── -->
+  <!-- Top left (gold, prominent) -->
+  <rect x="0" y="0" width="3"  height="60" rx="2" fill="#d4b95e" opacity="0.65"/>
+  <rect x="0" y="0" width="60" height="3"  rx="2" fill="#d4b95e" opacity="0.65"/>
+  <!-- Bottom right (gold, dimmer) -->
+  <rect x="880" y="397" width="60" height="3"  rx="2" fill="#d4b95e" opacity="0.22"/>
+  <rect x="937" y="340" width="3"  height="60" rx="2" fill="#d4b95e" opacity="0.22"/>
+  <!-- Top right (white, very faint) -->
+  <rect x="880" y="0" width="60" height="2" rx="2" fill="rgba(255,255,255,0.07)"/>
+  <rect x="938" y="0" width="2" height="60" rx="2" fill="rgba(255,255,255,0.07)"/>
+  <!-- Bottom left (white, very faint) -->
+  <rect x="0"   y="398" width="60" height="2" rx="2" fill="rgba(255,255,255,0.07)"/>
+  <rect x="0"   y="340" width="2"  height="60" rx="2" fill="rgba(255,255,255,0.07)"/>
+
+
+  <!-- ─── CENTER CONTENT ─────────────────────────── -->
+
+  <!-- Tag pill -->
+  <rect x="396" y="96" width="148" height="24" rx="12"
+        fill="rgba(212,185,94,0.1)" stroke="rgba(212,185,94,0.32)" stroke-width="1"/>
+  <text x="470" y="112" text-anchor="middle"
+        font-family="'PingFang SC', 'Hiragino Sans GB', -apple-system, sans-serif"
+        font-size="11" font-weight="500" fill="#d4b95e" letter-spacing="1" opacity="0.88">随笔 · 2023</text>
+
+  <!-- Main title -->
+  <text x="470" y="186" text-anchor="middle"
+        font-family="'LXGW WenKai Lite', 'PingFang SC', 'Hiragino Sans GB', -apple-system, sans-serif"
+        font-size="52" font-weight="700" fill="#ffffff" opacity="0.96"
+        filter="url(#textGlow)">工作的本质</text>
+
+  <!-- Divider with gold center dot -->
+  <line x1="414" y1="208" x2="456" y2="208" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+  <circle cx="470" cy="208" r="2.5" fill="#d4b95e" opacity="0.7"/>
+  <line x1="484" y1="208" x2="526" y2="208" stroke="rgba(255,255,255,0.14)" stroke-width="1"/>
+
+  <!-- Gold subtitle -->
+  <text x="470" y="246" text-anchor="middle"
+        font-family="'LXGW WenKai Lite', 'PingFang SC', 'Hiragino Sans GB', -apple-system, sans-serif"
+        font-size="20" font-weight="400" fill="url(#gold)" letter-spacing="8" opacity="0.9">解决问题</text>
+
+  <!-- Bottom quote -->
+  <text x="470" y="308" text-anchor="middle"
+        font-family="'PingFang SC', 'Hiragino Sans GB', -apple-system, sans-serif"
+        font-size="11" fill="rgba(255,255,255,0.2)" letter-spacing="1">解决更大的问题，是晋升的本质</text>
+
+  <!-- Very subtle bottom rule -->
+  <line x1="400" y1="324" x2="540" y2="324" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+</svg>
