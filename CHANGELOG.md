@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.7] - 2026-04-08
+
+### Refactor
+- `src/navbar.html` (new): extract duplicated SVG filter + navbar markup into a shared partial with `{{ROOT_PATH}}` placeholder
+- `src/index.html`, `src/post.html`: replace ~50 lines of duplicated navbar HTML with `{{NAVBAR}}`
+- `src/build.js`: load `navbar.html` partial and inject with correct `ROOT_PATH` (`""` for index, `"../"` for posts)
+
 ## [1.3.6] - 2026-04-07
 
 ### Changed

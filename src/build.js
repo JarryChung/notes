@@ -313,13 +313,16 @@ async function build(postsDir, publicDir) {
   // 3. Copy images and other non-.md files from posts/ → public/posts/
   await copyNonMdFiles(postsDir, join(publicDir, "posts"));
 
-  // 4. Load templates (inject toggle button partial and constant values)
+  // 4. Load templates (inject partials and constant values)
   const toggleHtml = await fs.readFile(join(srcDir, "toggle.html"), "utf-8");
+  const navbarHtml = await fs.readFile(join(srcDir, "navbar.html"), "utf-8");
+  const indexNavbar = navbarHtml.replaceAll("{{ROOT_PATH}}", "").replaceAll("{{THEME_TOGGLE}}", toggleHtml);
+  const postNavbar = navbarHtml.replaceAll("{{ROOT_PATH}}", "../").replaceAll("{{THEME_TOGGLE}}", toggleHtml);
   const indexTemplate = (await fs.readFile(join(srcDir, "index.html"), "utf-8"))
-    .replaceAll("{{THEME_TOGGLE}}", toggleHtml)
+    .replaceAll("{{NAVBAR}}", indexNavbar)
     .replaceAll("{{SITE_URL}}", SITE_URL);
   const postTemplate = (await fs.readFile(join(srcDir, "post.html"), "utf-8"))
-    .replaceAll("{{THEME_TOGGLE}}", toggleHtml)
+    .replaceAll("{{NAVBAR}}", postNavbar)
     .replaceAll("{{SITE_URL}}", SITE_URL);
 
   // 5. Discover markdown files
