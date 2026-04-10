@@ -32,6 +32,7 @@
 
 | Title | Date |
 | --- | --- |
+| [AI 编程与工作](posts/ai-coding-at-work.md) | 2026.04.10 |
 | [ZZ 用 Markdown 写传世之作](posts/test-markdown.md) | 2026.03.21 |
 | [2025这一年 \| 以发展规划为线索](posts/2025.md) | 2026.01.01 |
 | [2024这一年 \| 关注可迁移能力](posts/2024.md) | 2025.01.01 |

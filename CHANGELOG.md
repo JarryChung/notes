@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.8] - 2026-04-10
+
+### Added
+- `posts/ai-coding-at-work.md`: new article "AI 编程与工作" — 技术是解决问题的方式之一，并非全部
+- `posts/images/ai-coding-and-career-banner.svg`: SVG banner for the article, visualizing the three-stage pipeline (发现问题 → 解决问题 → 验证结果) with gold/blue color coding to distinguish human vs AI work
+
 ## [1.3.7] - 2026-04-08
 
 ### Refactor
