@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.4.4] - 2026-06-24
+
+### Added
+- `src/feed.xsl`: copy button next to the `subscribe = "…"` feed URL line. Uses `navigator.clipboard.writeText` (with a `document.execCommand` fallback for non-secure contexts), shows a transient `copied` state, and styled to match the code aesthetic. Inline `<script>` runs because XSLT-transformed feeds are treated as HTML documents by browsers
+
+## [1.4.3] - 2026-06-24
+
+### Changed
+- `src/feed.xsl`: redesigned the RSS page with a code-editor aesthetic — monospace font, a window chrome with traffic-light dots and `feed.xml — N items` filename, a line-number gutter, and syntax-highlight coloring (comment-gray header block, `subscribe = "…"` key/string line, each post as `[2026-04-21] 标题  // 摘要`). Added an `isodate` named template to convert RFC-822 dates to `YYYY-MM-DD` in XSLT 1.0
+
+## [1.4.2] - 2026-06-24
+
+### Changed
+- `src/feed.xsl`: simplified the RSS page styling — removed glass blur, card shadows, the gold `RSS Feed` pill, and the boxed subscribe banner. Now a clean editorial list: title + one-line subscribe hint, posts separated by hairline rules (no cards), minimal gold accent only on hover/links
+
+## [1.4.1] - 2026-06-24
+
+### Fixed
+- `src/build.js`: `generateRss` — stylesheet PI now uses a root-relative `href="/feed.xsl"` instead of the absolute `https://zjiz.cn/feed.xsl`. Browsers enforce same-origin policy for XSLT, so the absolute URL broke local rendering (`npx serve public` on `localhost` couldn't load a stylesheet from `zjiz.cn`). Root-relative works on both localhost and production
+
+## [1.4.0] - 2026-06-24
+
+### Added
+- `src/feed.xsl` (new): XSLT 1.0 stylesheet that renders `feed.xml` as a styled HTML page when opened in a browser — matches the site's design tokens (gold accent `#d4b95e`, LXGW WenKai font, glass cards) with light/dark support via `prefers-color-scheme`; includes a "复制链接到阅读器" subscribe banner, post count, and per-item cards
+- `src/build.js`: `generateRss` now emits a `<?xml-stylesheet type="text/xsl" href="…/feed.xsl"?>` processing instruction (resolved against `SITE_URL`); build copies `src/feed.xsl` → `public/feed.xsl`. Feed readers ignore the PI, so the RSS stays valid
+
 ## [1.3.8] - 2026-04-10
 
 ### Added

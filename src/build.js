@@ -51,6 +51,9 @@ async function generateRobotsTxt(publicDir, siteUrl) {
 async function generateRss(posts, publicDir, siteUrl) {
   const base = siteUrl.replace(/\/$/, "");
   const feedUrl = base ? `${base}/feed.xml` : "feed.xml";
+  // Root-relative so the stylesheet is always same-origin as the feed
+  // (browsers block cross-origin XSLT). Works on localhost and in production.
+  const xslHref = "/feed.xsl";
   const siteLink = base || "./";
 
   const items = posts
@@ -73,6 +76,7 @@ async function generateRss(posts, publicDir, siteUrl) {
     .join("\n");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="${escapeXml(xslHref)}"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ZJIZHUANG's Notes</title>
@@ -308,6 +312,10 @@ async function build(postsDir, publicDir) {
   await fs.copyFile(
     join(srcDir, "favicon.png"),
     join(publicDir, "assets", "favicon.png"),
+  );
+  await fs.copyFile(
+    join(srcDir, "feed.xsl"),
+    join(publicDir, "feed.xsl"),
   );
 
   // 3. Copy images and other non-.md files from posts/ → public/posts/

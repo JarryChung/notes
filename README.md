@@ -32,6 +32,7 @@
 
 | Title | Date |
 | --- | --- |
+| [工程师思维](posts/engineer-thinking.md) | 2026.04.21 |
 | [学习的第一性原理](posts/first-principles-of-learning.md) | 2026.04.13 |
 | [AI 编程与工作](posts/ai-coding-at-work.md) | 2026.04.10 |
 | [ZZ 用 Markdown 写传世之作](posts/test-markdown.md) | 2026.03.21 |
